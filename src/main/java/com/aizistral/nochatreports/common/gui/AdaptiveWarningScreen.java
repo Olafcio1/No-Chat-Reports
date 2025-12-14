@@ -3,8 +3,10 @@ package com.aizistral.nochatreports.common.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.TextAlignment;
+import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Display;
+import org.apache.commons.compress.compressors.lz77support.Parameters;
 import org.jetbrains.annotations.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -63,18 +65,19 @@ public abstract class AdaptiveWarningScreen extends Screen {
 
 	protected abstract void initButtons(int y);
 
-    static final int RESERVED = -1;
-
 	@Override
 	public void render(GuiGraphics graphics, int i, int j, float f) {
 		super.render(graphics, i, j, f);
 		this.renderTitle(graphics);
-		int k = this.width / 2 - this.message.getWidth() / 2;
+
+        int messageWidth = this.message.getWidth();
+        int k = (this.width - messageWidth) / 2;
+
 		this.message.visitLines(
                 TextAlignment.LEFT,
-                RESERVED, RESERVED,
-                k,
-                graphics.textRenderer()
+                25, (this.hugeGUI() ? 15 : 30) + 20,
+                font.lineHeight + 4,
+                graphics.textRendererForWidget(new MultiLineTextWidget(content, font), GuiGraphics.HoveredTextEffects.NONE)
         );
 	}
 
