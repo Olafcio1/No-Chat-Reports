@@ -1,5 +1,8 @@
 package com.aizistral.nochatreports.common.gui;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ActiveTextCollector;
+import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.world.entity.Display;
 import org.jetbrains.annotations.Nullable;
 
@@ -58,12 +61,22 @@ public abstract class AdaptiveWarningScreen extends Screen {
 
 	protected abstract void initButtons(int y);
 
+    static final int RESERVED = -1;
+
 	@Override
 	public void render(GuiGraphics graphics, int i, int j, float f) {
 		super.render(graphics, i, j, f);
 		this.renderTitle(graphics);
 		int k = this.width / 2 - this.message.getWidth() / 2;
-		this.message.render(graphics, Display.TextDisplay.Align.LEFT, k, this.hugeGUI() ? 35 : 70, this.getLineHeight(), true, 0xFFFFFFFF);
+		this.message.visitLines(
+                TextAlignment.LEFT,
+                RESERVED, RESERVED,
+                k,
+                new ActiveTextCollector.ClickableStyleFinder(
+                        Minecraft.getInstance().font,
+                        i, j
+                )
+        );
 	}
 
 	private void renderTitle(GuiGraphics graphics) {
