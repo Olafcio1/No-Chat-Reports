@@ -3,6 +3,7 @@ package com.aizistral.nochatreports.common.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.TextAlignment;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Display;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,6 +17,7 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.multiplayer.WarningScreen;
 import net.minecraft.network.chat.Component;
+import org.joml.Matrix3x2f;
 
 public abstract class AdaptiveWarningScreen extends Screen {
 	private final Component title;
@@ -72,10 +74,7 @@ public abstract class AdaptiveWarningScreen extends Screen {
                 TextAlignment.LEFT,
                 RESERVED, RESERVED,
                 k,
-                new ActiveTextCollector.ClickableStyleFinder(
-                        Minecraft.getInstance().font,
-                        i, j
-                )
+                graphics.textRenderer()
         );
 	}
 
